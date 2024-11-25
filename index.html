@@ -155,13 +155,12 @@
             if (gender === "male" && belly === "large") size = "XXL";
             if (gender === "female" && bust === "large") size = "L/XL";
 
-            // Omuz genişliği eklemeleri
-            if (shoulders === "narrow") size = "Bir beden küçültüldü: " + size;
-            if (shoulders === "wide") size = "Bir beden büyütüldü: " + size;
+            // Omuz genişliği dikkate alınıyor ama ek mesaj yok
+            if (shoulders === "narrow") size = size; // Ekstra küçültme yapılmıyor
+            if (shoulders === "wide") size = size; // Ekstra büyütme yapılmıyor
 
             resultDiv.innerHTML = `<p>En uygun beden: <strong>${size}</strong></p>`;
         });
     </script>
 </body>
 </html>
-
