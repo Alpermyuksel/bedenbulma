@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vücut Tipine Göre Beden Bulucu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+        input, select {
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Beden Bulucu</h1>
+        <form id="sizeForm">
+            <label for="gender">Cinsiyet</label>
+            <select id="gender" required>
+                <option value="">Seçiniz</option>
+                <option value="male">Erkek</option>
+                <option value="female">Kadın</option>
+            </select>
+
+            <label for="height">Boy (cm)</label>
+            <input type="number" id="height" placeholder="Boyunuzu girin" required>
+
+            <label for="weight">Kilo (kg)</label>
+            <input type="number" id="weight" placeholder="Kilonuzu girin" required>
+
+            <div id="maleOptions" style="display: none;">
+                <label for="belly">Göbek Tipi</label>
+                <select id="belly">
+                    <option value="">Seçiniz</option>
+                    <option value="none">Düz</option>
+                    <option value="average">Orta</option>
+                    <option value="large">Büyük</option>
+                </select>
+            </div>
+
+            <div id="femaleOptions" style="display: none;">
+                <label for="bust">Göğüs Büyüklüğü</label>
+                <select id="bust">
+                    <option value="">Seçiniz</option>
+                    <option value="small">Küçük</option>
+                    <option value="medium">Orta</option>
+                    <option value="large">Büyük</option>
+                </select>
+            </div>
+
+            <label for="shoulders">Omuz Genişliği</label>
+            <select id="shoulders" required>
+                <option value="">Seçiniz</option>
+                <option value="narrow">Dar</option>
+                <option value="normal">Normal</option>
+                <option value="wide">Geniş</option>
+            </select>
+
+            <button type="submit">Sonucu Göster</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const genderField = document.getElementById("gender");
+        const maleOptions = document.getElementById("maleOptions");
+        const femaleOptions = document.getElementById("femaleOptions");
+        const form = document.getElementById("sizeForm");
+        const resultDiv = document.getElementById("result");
+
+        genderField.addEventListener("change", () => {
+            if (genderField.value === "male") {
+                maleOptions.style.display = "block";
+                femaleOptions.style.display = "none";
+            } else if (genderField.value === "female") {
+                maleOptions.style.display = "none";
+                femaleOptions.style.display = "block";
+            } else {
+                maleOptions.style.display = "none";
+                femaleOptions.style.display = "none";
+            }
+        });
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const gender = genderField.value;
+            const height = parseInt(document.getElementById("height").value);
+            const weight = parseInt(document.getElementById("weight").value);
+            const shoulders = document.getElementById("shoulders").value;
+            const belly = document.getElementById("belly")?.value;
+            const bust = document.getElementById("bust")?.value;
+
+            let size = "";
+
+            // Basit beden algoritması
+            if (weight > 100 || height > 185) {
+                size = "XXL";
+            } else if (weight > 85) {
+                size = "XL";
+            } else if (weight > 70) {
+                size = "L";
+            } else if (weight > 55) {
+                size = "M";
+            } else {
+                size = "S";
+            }
+
+            // Sonucu göster
+            resultDiv.innerHTML = `<p>En uygun beden: <strong>${size}</strong></p>`;
+        });
+    </script>
+</body>
+</html>
