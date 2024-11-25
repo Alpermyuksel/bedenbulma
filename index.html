@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beden Bulucu</title>
+    <title>Vücut Tipine Göre Beden Bulucu</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #ffffff;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,6 +26,7 @@
         }
         h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
         label {
             display: block;
@@ -50,8 +52,8 @@
             background-color: #0056b3;
         }
         .result {
-            text-align: center;
             margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -76,7 +78,7 @@
                 <label for="belly">Göbek Tipi</label>
                 <select id="belly">
                     <option value="">Seçiniz</option>
-                    <option value="flat">Düz</option>
+                    <option value="none">Düz</option>
                     <option value="average">Orta</option>
                     <option value="large">Büyük</option>
                 </select>
@@ -135,30 +137,22 @@
             const belly = document.getElementById("belly")?.value;
             const bust = document.getElementById("bust")?.value;
 
-            const bmi = (weight / Math.pow(height / 100, 2)).toFixed(1);
             let size = "";
 
-            // BMI'ye göre beden seçimi
-            if (bmi < 18.5) {
-                size = "XS";
-            } else if (bmi < 25) {
-                size = "S/M";
-            } else if (bmi < 30) {
-                size = "L";
-            } else if (bmi < 35) {
-                size = "XL";
-            } else {
+            // Basit beden algoritması
+            if (weight > 100 || height > 185) {
                 size = "XXL";
+            } else if (weight > 85) {
+                size = "XL";
+            } else if (weight > 70) {
+                size = "L";
+            } else if (weight > 55) {
+                size = "M";
+            } else {
+                size = "S";
             }
 
-            // Göbek ve göğüs eklemeleri
-            if (gender === "male" && belly === "large") size = "XXL";
-            if (gender === "female" && bust === "large") size = "L/XL";
-
-            // Omuz genişliği dikkate alınıyor ama ek mesaj yok
-            if (shoulders === "narrow") size = size; // Ekstra küçültme yapılmıyor
-            if (shoulders === "wide") size = size; // Ekstra büyütme yapılmıyor
-
+            // Sonucu göster
             resultDiv.innerHTML = `<p>En uygun beden: <strong>${size}</strong></p>`;
         });
     </script>
